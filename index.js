@@ -1,15 +1,35 @@
-// Import the Tesseract library
+// Extract text from an image using Tesseract.js OCR.
+//
+// Usage:
+//   npm install             (installs tesseract.js)
+//   node index.js <path-to-image>
+//
+// The extracted text is printed to the console.
+
 const Tesseract = require('tesseract.js');
 
-// Create a function that will handle the OCR process
-function extractText(image) {
-  // Use Tesseract to process the image
-  Tesseract.recognize(image)
-    .then(result => {
-      // Print the extracted text to the console
-      console.log(result.text);
-    });
+async function extractText(imagePath) {
+  const {
+    data: { text },
+  } = await Tesseract.recognize(imagePath, 'eng');
+  return text;
 }
 
-// Create a file input element in the HTML
-<input type="file" onChange={event => extractText(event.target.files[0])} />
+async function main() {
+  const imagePath = process.argv[2];
+
+  if (!imagePath) {
+    console.error('Usage: node index.js <path-to-image>');
+    process.exit(1);
+  }
+
+  try {
+    const text = await extractText(imagePath);
+    console.log(text.trim());
+  } catch (err) {
+    console.error('Failed to extract text:', err.message);
+    process.exit(1);
+  }
+}
+
+main();

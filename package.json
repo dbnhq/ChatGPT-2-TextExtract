@@ -1,0 +1,1 @@
+{"dependencies":{"tesseract.js":"^5.0.0"},"description":"Extract text from an image using Tesseract.js OCR","license":"ISC","main":"index.js","name":"chatgpt-2-textextract","scripts":{"start":"node index.js"},"version":"1.0.0"}
